@@ -278,7 +278,8 @@ class main(QMainWindow):
             code = str(self.user_info['code'])
             department = str(self.user_info['department'])
             position = str(self.user_info['position'])
-            avt_path = f'{self.config["avatar_path"]}/{code}.jpg'
+            avt_path = str(self.user_info['avatar'])
+            avt_path = Path('media/avatar').joinpath(avt_path).as_posix()
             if Path(avt_path).exists():
                 avatar = QPixmap(avt_path)
             image_timekeep = ''
