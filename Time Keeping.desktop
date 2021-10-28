@@ -1,0 +1,7 @@
+[Desktop Entry]
+vVersion=1.0
+Type=Application
+Terminal=false
+Icon=/home/jetson/timekeeping/app_icon.png
+Exec=/home/jetson/timekeeping/start.sh
+Name=Time Keeping
