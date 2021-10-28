@@ -13,7 +13,7 @@ import string
 import sys
 from typing import Tuple, Union
 import hashlib
-from tensorflow.keras.models import model_from_json
+# from tensorflow.keras.models import model_from_json
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 from PyQt5.QtCore import *
@@ -25,7 +25,7 @@ from utils.ui import Ui_MainWindow
 from utils.sqlite_database import *
 import pandas as pd
 import requests
-# import winsound
+import winsound
 
 try:
     import Jetson.GPIO as gpio
@@ -137,9 +137,9 @@ class main(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(0)
         self.face_detection = cv2.CascadeClassifier("src/frontalface_default.xml")
-        json_model = open('src/antispoofing.json', 'r').read()
-        self.antispoofing = model_from_json(json_model)
-        self.antispoofing.load_weights('src/antispoofing.h5')
+        # json_model = open('src/antispoofing.json', 'r').read()
+        # self.antispoofing = model_from_json(json_model)
+        # self.antispoofing.load_weights('src/antispoofing.h5')
         self.ui.btn_login.clicked.connect(self.login_clicked)
         self.ui.btn_back_admin.clicked.connect(self.back_admin_clicked)
         self.ui.btn_function_admin.clicked.connect(self.function_admin_clicked)
@@ -267,7 +267,7 @@ class main(QMainWindow):
         self.time_noti = datetime.datetime.now()
 
     def speak(self):
-        # winsound.Beep(2500, 500)
+        winsound.Beep(2500, 500)
         pass
 
     def set_show_info(self):
@@ -338,21 +338,21 @@ class main(QMainWindow):
     def face_recog(self):
         try:
             if self.main_ui and self.face_cut is not None:
-                face = np.expand_dims(cv2.resize(self.face_cut, (160, 160)) / 255.0, axis=0)
-                liveness = self.antispoofing.predict(face)[0]
-                if liveness < 0.005:
-                    face_enc = face_recognition.face_encodings(self.face_cut, model='large')
-                    if len(face_enc) > 0:
-                        match = face_recognition.compare_faces(self.know_enc, face_enc[0], tolerance=0.35)
-                        face_distances = face_recognition.face_distance(self.know_enc, face_enc[0])
-                        best_match_index = np.argmin(face_distances)
-                        if match[best_match_index]:
-                            self.user_code = self.know_codes[best_match_index]
-                            if not self.unlock_door and self.timeout_door is None:
-                                self.unlock_door = True
-                            elif self.timeout_door:
-                                self.timeout_door = datetime.datetime.now()
-                            self.check_timekeep()
+                # face = np.expand_dims(cv2.resize(self.face_cut, (160, 160)) / 255.0, axis=0)
+                # liveness = self.antispoofing.predict(face)[0]
+                # if liveness < 0.005:
+                face_enc = face_recognition.face_encodings(self.face_cut, model='large')
+                if len(face_enc) > 0:
+                    match = face_recognition.compare_faces(self.know_enc, face_enc[0], tolerance=0.35)
+                    face_distances = face_recognition.face_distance(self.know_enc, face_enc[0])
+                    best_match_index = np.argmin(face_distances)
+                    if match[best_match_index]:
+                        self.user_code = self.know_codes[best_match_index]
+                        if not self.unlock_door and self.timeout_door is None:
+                            self.unlock_door = True
+                        elif self.timeout_door:
+                            self.timeout_door = datetime.datetime.now()
+                        self.check_timekeep()
         except Exception as e:
             pass
 
