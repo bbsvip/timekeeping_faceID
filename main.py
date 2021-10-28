@@ -25,7 +25,7 @@ from utils.ui import Ui_MainWindow
 from utils.sqlite_database import *
 import pandas as pd
 import requests
-import winsound
+# import winsound
 
 try:
     import Jetson.GPIO as gpio
@@ -267,7 +267,7 @@ class main(QMainWindow):
         self.time_noti = datetime.datetime.now()
 
     def speak(self):
-        winsound.Beep(2500, 500)
+        # winsound.Beep(2500, 500)
         pass
 
     def set_show_info(self):
