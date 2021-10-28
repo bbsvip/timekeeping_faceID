@@ -8,7 +8,7 @@ try:
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cap_height)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, cap_width)
 except:
-    self.cap = cv2.VideoCapture(
+    cap = cv2.VideoCapture(
         f"v4l2src device=/dev/video{0} ! video/x-raw, width={cap_width}, height={cap_height} ! videoconvert ! video/x-raw, format=BGR ! appsink")
 
 while cap.isOpened():
