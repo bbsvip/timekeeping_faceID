@@ -1,7 +1,7 @@
 DB_PATH: src/TimeKeepingDB.db
 URL_API: http://103.113.83.194:9001/api/t
 avatar_path: media/avatar/
-branch: DNA
+branch: HCM
 camera: 0
 checkin_path: media/checkin_images/
 data_path: media/data/
