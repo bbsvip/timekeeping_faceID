@@ -207,17 +207,15 @@ class main(QMainWindow):
                             f"v4l2src device=/dev/video{int(self.config['camera'])} ! video/x-raw, width={self.cap_width}, height={self.cap_height} ! videoconvert ! video/x-raw, format=BGR ! appsink")
                 except Exception as _:
                     self.set_noti('vui lòng cài đặt camera id trong setting và thử lại', 1)
-
-        if self.timeout_door is None:
-            if self.unlock_door:
-                try:
-                    gpio.output(self.PIN, gpio.HIGH)
-                except:
-                    pass
-                print(datetime.datetime.now(), 'unlock', self.user_info['name'])
-                self.unlock_door = False
-                self.timeout_door = datetime.datetime.now()
-        elif (datetime.datetime.now() - self.timeout_door).total_seconds() >= 10:
+        if self.unlock_door:
+            try:
+                gpio.output(self.PIN, gpio.HIGH)
+            except:
+                pass
+            print(datetime.datetime.now(), 'unlock', self.user_info['name'])
+            self.unlock_door = False
+            self.timeout_door = datetime.datetime.now()
+        elif self.timeout_door and (datetime.datetime.now() - self.timeout_door).total_seconds() >= 10:
             self.timeout_door = None
             try:
                 gpio.output(self.PIN, gpio.LOW)
@@ -271,7 +269,6 @@ class main(QMainWindow):
     def speak(self):
         # winsound.Beep(2500, 500)
         pass
-        
 
     def set_show_info(self):
         name, code, department, position, str_time, avatar = "_", "_", "_", "_", "_", self.person_avt
